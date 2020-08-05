@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rock Paper Scissor</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <script>
+
+            let playerWin = 0;
+            let computerWin = 0;
+            let tie = 0;
+            
+            function rand(maxLimit = 2) {
+                return Math.round(Math.random() * maxLimit);
+            }
+
+            function computerPlay() {
+                let computerPlay = ["rock", "paper", "scissors"];
+                return computerPlay[rand()];
+            }
+
+            function playerSelection() {
+                let ps = prompt("Rock, Paper or Scissors?");
+                let playerSelection = ps.toLowerCase();
+                return playerSelection;
+            }
+
+            function playRound(a, b) { 
+                let player = a();
+                let computer = b();      
+
+                if (player == "rock" && computer == "paper") {
+                    computerWin ++;
+                    return `You lose! ${computer} beats ${player}`;
+                }
+                else if (player == "paper" && computer == "scissors") {
+                    computerWin ++;
+                    return `You lose! ${computer} beats ${player}`;
+                }
+                else if (player == "scissors" && computer == "rock") {
+                    computerWin ++;
+                    return `You lose! ${computer} beats ${player}`;
+                }
+                else if (player == "rock" && computer == "scissors") {
+                    playerWin ++;
+                    return `You win! ${player} beats ${computer}`;
+                } 
+                else if (player == "scissors" && computer == "paper") {
+                    playerWin ++;
+                    return `You win! ${player} beats ${computer}`;
+                }
+                else if (player == "paper" && computer == "rock") {
+                    playerWin ++;
+                    return `You win! ${player} beats ${computer}`;
+                }
+                else {
+                    tie ++;
+                    return `It's a tie!`;
+                }
+            }
+
+            function game() {
+                for (let i = 0; i < 5; i++) {
+                    console.log(playRound(playerSelection, computerPlay))
+                }
+                if (playerWin > computerWin) {
+                    return `You are the winner! ${playerWin} wins, ${computerWin} loses, ${tie} ties.`;
+                }
+                else if (computerWin > playerWin) {
+                    return `You are the loser! ${playerWin} wins, ${computerWin} loses, ${tie} ties.`;
+                }
+                else {
+                    return `It's a tie! ${playerWin} wins, ${computerWin} loses, ${tie} ties.`
+                }
+            }
+        </script>
+    </body>
+</html>

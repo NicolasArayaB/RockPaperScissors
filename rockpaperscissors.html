@@ -3,77 +3,102 @@
     <head>
         <title>Rock Paper Scissor</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="layout.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <h1>Rock, Paper, Scissors!</h1>
+        <div id="buttons">
+            <button>Rock</button>
+            <button>Paper</button>
+            <button>Scissors</button>
+        </div>
+        <div id="roundResult"></div>
+        <div id="results"><span id="wins">Wins: 0 </span><span id="loses">Loses: 0</span><span id="ties">Ties: 0</span></div>
         <script>
 
             let playerWin = 0;
             let computerWin = 0;
-            let tie = 0;
+            let tie = 0; 
             
             function rand(maxLimit = 2) {
                 return Math.round(Math.random() * maxLimit);
             }
 
-            function computerPlay() {
-                let computerPlay = ["rock", "paper", "scissors"];
-                return computerPlay[rand()];
-            }
-
             function playerSelection() {
-                let ps = prompt("Rock, Paper or Scissors?");
-                let playerSelection = ps.toLowerCase();
+                const playerSelection = document.querySelector("button[id]")
                 return playerSelection;
             }
 
-            function playRound(a, b) { 
-                let player = a();
-                let computer = b();      
+            function computerPlay() {
+                const computerOptions = ["rock", "paper", "scissors"];
+                return computerOptions[rand()];
+            }
+            function reset() {
+                playerWin = 0;
+                document.querySelector("#wins").innerHTML = `Wins: ${playerWin}`;
+                computerWin = 0;
+                document.querySelector("#loses").innerHTML = `Loses: ${computerWin}`;
+                tie = 0;
+                document.querySelector("#ties").innerHTML = `Ties: ${tie}`;
+                document.querySelector("#roundResult").innerHTML = " ";
+                return;
+            }
 
+            function win(player, computer) {
+                document.querySelector("#roundResult").innerHTML =`You win! ${player} beats ${computer}`;
+                document.querySelector('#wins').innerHTML = `Wins: ${playerWin}`;
+                if (playerWin == 5) {
+                    alert("You are the winner! Congratulations!");
+                    reset()
+                }
+            }
+            function lose(player, computer) {
+                document.querySelector("#roundResult").innerHTML = `You lose! ${computer} beats ${player}`;
+                document.querySelector("#loses").innerHTML = `Loses: ${computerWin}`;
+                if (computerWin == 5) {
+                    alert("You lose! Better luck next time.");
+                    reset();
+                }
+            }
+
+            function playRound(playerOption, computer) { 
+            let player = playerOption.toLowerCase();
                 if (player == "rock" && computer == "paper") {
                     computerWin ++;
-                    return `You lose! ${computer} beats ${player}`;
+                    return lose(player, computer);
                 }
                 else if (player == "paper" && computer == "scissors") {
                     computerWin ++;
-                    return `You lose! ${computer} beats ${player}`;
+                    return lose(player, computer);
                 }
                 else if (player == "scissors" && computer == "rock") {
                     computerWin ++;
-                    return `You lose! ${computer} beats ${player}`;
+                    return lose(player, computer);
                 }
                 else if (player == "rock" && computer == "scissors") {
                     playerWin ++;
-                    return `You win! ${player} beats ${computer}`;
+                    return win(player, computer);
                 } 
                 else if (player == "scissors" && computer == "paper") {
                     playerWin ++;
-                    return `You win! ${player} beats ${computer}`;
+                    return win(player, computer);
                 }
                 else if (player == "paper" && computer == "rock") {
                     playerWin ++;
-                    return `You win! ${player} beats ${computer}`;
+                    return win(player, computer);
                 }
                 else {
                     tie ++;
-                    return `It's a tie!`;
+                    document.querySelector("#roundResult").innerHTML = `It's a tie!`;
+                    document.querySelector("#ties").innerHTML = `Ties: ${tie}`;
                 }
             }
-
-            function game() {
-                for (let i = 0; i < 5; i++) {
-                    console.log(playRound(playerSelection, computerPlay))
+            document.body.addEventListener("click", event => {
+                if(event.target.nodeName == "BUTTON"){
+                    playRound(event.target.textContent, computerPlay());
                 }
-                if (playerWin > computerWin) {
-                    return `You are the winner! ${playerWin} wins, ${computerWin} loses, ${tie} ties.`;
-                }
-                else if (computerWin > playerWin) {
-                    return `You are the loser! ${playerWin} wins, ${computerWin} loses, ${tie} ties.`;
-                }
-                else {
-                    return `It's a tie! ${playerWin} wins, ${computerWin} loses, ${tie} ties.`;
-                }
-            }
+            });
         </script>
     </body>
 </html>
